@@ -187,7 +187,6 @@ static void bytes_to_float(float *float_result, uint8_t b0, uint8_t b1, uint8_t 
 /**@snippet [Handling the data received over BLE] */
 static void nus_data_handler(ble_nus_t * p_nus, uint8_t * p_data, uint16_t length)
 {
-    uint32_t err_code;
 		long quat[4];
 		float quat_print[4];
 		float accel_print[3];
@@ -195,52 +194,33 @@ static void nus_data_handler(ble_nus_t * p_nus, uint8_t * p_data, uint16_t lengt
     NRF_LOG_DEBUG("Received data from BLE NUS. Writing data on UART.\r\n");
     NRF_LOG_HEXDUMP_DEBUG(p_data, length);
 	
-		long out = bytes_to_long(p_data[0],p_data[1],p_data[2],p_data[3]);
-		printf("%ld \r\n",out);
+		//long out = bytes_to_long(p_data[0],p_data[1],p_data[2],p_data[3]);
+		//printf("%ld \r\n",out);
 	
-		/*
+		
 		if((char)p_data[0]!='$'){
 				NRF_LOG_DEBUG("Received data packet misaligned. Discard. \r\n");
 				return;
 		}
 		
-		if((char)p_data[1]=='@'){
-				quat[0] = bytes_to_long(p_data[3],p_data[4],p_data[5],p_data[6]);
-				quat[1] = bytes_to_long(p_data[7],p_data[8],p_data[9],p_data[10]);
-				quat[2] = bytes_to_long(p_data[11],p_data[12],p_data[13],p_data[14]);
-				quat[3] = bytes_to_long(p_data[15],p_data[16],p_data[17],p_data[18]);
-		}else{
-				NRF_LOG_DEBUG("Quat data begin indicator not found. Discard. \r\n");
-				return;
-		}
-		
-		if((char)p_data[21]!='#'){
-				NRF_LOG_DEBUG("Quat data end indicator not found. Discard. \r\n");
-				return;
-		}
-		
-		if((char)p_data[24]=='%'){
-				bytes_to_float(&accel_print[0],p_data[25],p_data[26],p_data[27],p_data[28]);
-				bytes_to_float(&accel_print[1],p_data[29],p_data[30],p_data[31],p_data[32]);
-				bytes_to_float(&accel_print[2],p_data[33],p_data[34],p_data[35],p_data[36]);
-		}else{
-				NRF_LOG_DEBUG("Accel data begin indicator not found. Discard. \r\n");
-				return;
-		}
-		
-		if((char)p_data[37]!='&'){
-				NRF_LOG_DEBUG("Accel data end indicator not found. \r\n");
-		}
+		quat[0] = bytes_to_long(p_data[1],p_data[2],p_data[3],p_data[4]);
+		quat[1] = bytes_to_long(p_data[5],p_data[6],p_data[7],p_data[8]);
+		quat[2] = bytes_to_long(p_data[9],p_data[10],p_data[11],p_data[12]);
+		quat[3] = bytes_to_long(p_data[13],p_data[14],p_data[15],p_data[16]);
 		
 		quat_print[0]= quat[0] * 1.0 / (1<<30);
 		quat_print[1]= quat[1] * 1.0 / (1<<30);			
 		quat_print[2]= quat[2] * 1.0 / (1<<30);
 		quat_print[3]= quat[3] * 1.0 / (1<<30);
+
+		bytes_to_float(&accel_print[0],p_data[17],p_data[18],p_data[19],p_data[20]);
+		bytes_to_float(&accel_print[1],p_data[21],p_data[22],p_data[23],p_data[24]);
+		bytes_to_float(&accel_print[2],p_data[25],p_data[26],p_data[27],p_data[28]);
 		
 		printf("%7.5f,%7.5f,%7.5f,%7.5f,%7.5f,%7.5f,%7.5f \r\n",quat_print[0],quat_print[1],quat_print[2],quat_print[3]	\
 																													,accel_print[0],accel_print[1],accel_print[2]);
 		
-		*/
+		
 		
 		/*
     for (uint32_t i = 0; i < length; i++)
